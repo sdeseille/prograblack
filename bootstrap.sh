@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
 
+#_______________________________________
+#                                       #
+# Downloading all installation packages #
+#_______________________________________#
+
 # Create Downloads directory in vagrant shared directory in order to store 
 # all downloaded packages required to install
 mkdir /vagrant/Downloads
@@ -36,6 +41,7 @@ sudo mkdir /var/lib/prometheus
 sudo chown prometheus:prometheus /etc/prometheus
 sudo chown prometheus:prometheus /var/lib/prometheus
 
+
 #_______________________
 #                       #
 # Installing Prometheus #
@@ -65,6 +71,32 @@ sudo chown -R prometheus:prometheus /etc/prometheus/console_libraries
 # 5) our last step is to clean home directory from unnecessary files
 cd .. && rm -rf prometheus-*
 
-# Install Grafana
+
+#__________________________
+#                          #
+# Installing node_exporter #
+#__________________________#
+
+# 1) we create a folder to unarchive Node exporter package
+mkdir -p /home/vagrant/Prometheus/node_exporter
+cd /home/vagrant/Prometheus/node_exporter
+tar zxf /vagrant/Downloads/node_exporter-*.tar.gz
+cd /home/vagrant/Prometheus/node_exporter/node_exporter-*
+
+# 2) we get a binary (node_exporter) to copy in /usr/local/bin
+sudo cp node_exporter-*/node_exporter /usr/local/bin
+
+# 3) we set ownership on copied binary in order to be able to use it
+sudo chown node_exporter:node_exporter /usr/local/bin/node_exporter
+
+# 4) and finally we remove unneeded files
+cd .. && rm -rf node_exporter-*
+
+
+#____________________
+#                    #
+# Installing Grafana #
+#____________________#
+
 sudo apt-get install -y adduser libfontconfig
 sudo dpkg -i grafana_5.4.3_amd64.deb 
