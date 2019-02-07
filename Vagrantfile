@@ -30,6 +30,12 @@ Vagrant.configure("2") do |config|
   # via 127.0.0.1 to disable public access
   # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
 
+  # Forwarding Prometheus Port in order to reach it from Host local interface
+  config.vm.network "forwarded_port", guest: 9090, host: 9090, host_ip: "127.0.0.1"
+  # Forwarding Grafana Port in order to reach it from Host local interface
+  config.vm.network "forwarded_port", guest: 3000, host: 3000, host_ip: "127.0.0.1"
+
+
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   # config.vm.network "private_network", ip: "192.168.33.10"
@@ -49,13 +55,15 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    # vb.gui = true
+  
+    # Customize the amount of memory on the VM:
+    vb.memory = "2048"
+    vb.cpus = 1
+    vb.name = "ProGraBlack"
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -67,4 +75,5 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
+  config.vm.provision :shell, path: "bootstrap.sh"
 end
