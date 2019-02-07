@@ -6,4 +6,4 @@ where principal aim is to learn how integrating
 those three box.
 Other aim for me is to experiment Dashboard Design
 
-Author: @sdeseille
+*Author: @sdeseille*
