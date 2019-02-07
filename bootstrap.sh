@@ -17,9 +17,11 @@ wget https://github.com/prometheus/blackbox_exporter/releases/download/v0.13.0/b
 
 # Download Grafana installation file
 wget https://dl.grafana.com/oss/release/grafana_5.4.3_amd64.deb
-
-
-# Preparing environment for Prometheus Server
+ 
+#_____________________________________________
+#                                             #
+# Preparing environment for Prometheus Server #
+#_____________________________________________#
 
 # 1) we create user with no possibility to login
 sudo useradd --no-create-home --shell /usr/sbin/nologin prometheus
@@ -34,7 +36,34 @@ sudo mkdir /var/lib/prometheus
 sudo chown prometheus:prometheus /etc/prometheus
 sudo chown prometheus:prometheus /var/lib/prometheus
 
-# 
+#_______________________
+#                       #
+# Installing Prometheus #
+#_______________________#
+
+# 1) we refresh our operating system before installing the product
+sudo apt-get update && apt-get upgrade
+
+# 2) we create a folder to unarchive prometheus server package
+mkdir -p /home/vagrant/Prometheus/server
+cd /home/vagrant/Prometheus/server
+tar zxf /vagrant/Downloads/prometheus-*.tar.gz
+cd /home/vagrant/Prometheus/server/prometheus-*
+
+# 3) we get two binaries (prometheus, promtool) and two folders (consoles, console_libraries)
+#    we have to copy these files in severals locations
+sudo cp ./prometheus /usr/local/bin/
+sudo cp ./promtool /usr/local/bin/
+
+sudo cp -r ./consoles /etc/prometheus
+sudo cp -r ./console_libraries /etc/prometheus
+
+# 4) we set owner on directories
+sudo chown -R prometheus:prometheus /etc/prometheus/consoles
+sudo chown -R prometheus:prometheus /etc/prometheus/console_libraries
+
+# 5) our last step is to clean home directory from unnecessary files
+cd .. && rm -rf prometheus-*
 
 # Install Grafana
 sudo apt-get install -y adduser libfontconfig
