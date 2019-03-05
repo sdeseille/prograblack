@@ -157,3 +157,21 @@ sudo systemctl start prometheus
 
 # Checking prometheus service status
 sudo systemctl status prometheus
+
+
+#_______________________
+#                       #
+# Grafana Configuration #
+#_______________________#
+
+# Reload Systemd to use grafana newly defined service
+sudo systemctl daemon-reload
+
+# We enable the service so that it will be loaded automatically during boot:
+sudo systemctl enable grafana-server
+
+# Starting grafana service
+sudo systemctl start grafana-server
+
+# Checking grafana service status
+sudo systemctl status grafana-server
