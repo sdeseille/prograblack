@@ -12,17 +12,18 @@ mkdir /vagrant/Downloads
 cd /vagrant/Downloads
 
 # Download Prometheus Server installation file
-wget https://github.com/prometheus/prometheus/releases/download/v2.7.1/prometheus-2.7.1.linux-amd64.tar.gz
+wget -q https://github.com/prometheus/prometheus/releases/download/v2.7.1/prometheus-2.7.1.linux-amd64.tar.gz
 
 # Download Prometheus Node-Exporter installation file
-wget https://github.com/prometheus/node_exporter/releases/download/v0.17.0/node_exporter-0.17.0.linux-amd64.tar.gz
+wget -q https://github.com/prometheus/node_exporter/releases/download/v0.17.0/node_exporter-0.17.0.linux-amd64.tar.gz
 
 # Download Prometheus Blakbox-Exporter installation file
-wget https://github.com/prometheus/blackbox_exporter/releases/download/v0.13.0/blackbox_exporter-0.13.0.linux-amd64.tar.gz
+wget -q https://github.com/prometheus/blackbox_exporter/releases/download/v0.13.0/blackbox_exporter-0.13.0.linux-amd64.tar.gz
 
 # Download Grafana installation file
-wget https://dl.grafana.com/oss/release/grafana_5.4.3_amd64.deb
- 
+wget -q https://dl.grafana.com/oss/release/grafana_5.4.3_amd64.deb
+
+
 #_____________________________________________
 #                                             #
 # Preparing environment for Prometheus Server #
@@ -64,7 +65,9 @@ sudo cp ./promtool /usr/local/bin/
 sudo cp -r ./consoles /etc/prometheus
 sudo cp -r ./console_libraries /etc/prometheus
 
-# 4) we set owner on directories
+# 4) we set owner on binaries and directories
+sudo chown prometheus:prometheus /usr/local/bin/prometheus
+sudo chown prometheus:prometheus /usr/local/bin/promtool
 sudo chown -R prometheus:prometheus /etc/prometheus/consoles
 sudo chown -R prometheus:prometheus /etc/prometheus/console_libraries
 
@@ -84,7 +87,7 @@ tar zxf /vagrant/Downloads/node_exporter-*.tar.gz
 cd /home/vagrant/Prometheus/node_exporter/node_exporter-*
 
 # 2) we get a binary (node_exporter) to copy in /usr/local/bin
-sudo cp node_exporter-*/node_exporter /usr/local/bin
+sudo cp node_exporter /usr/local/bin
 
 # 3) we set ownership on copied binary in order to be able to use it
 sudo chown node_exporter:node_exporter /usr/local/bin/node_exporter
@@ -98,5 +101,6 @@ cd .. && rm -rf node_exporter-*
 # Installing Grafana #
 #____________________#
 
+cd /vagrant/Downloads/
 sudo apt-get install -y adduser libfontconfig
 sudo dpkg -i grafana_5.4.3_amd64.deb 
