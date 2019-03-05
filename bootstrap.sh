@@ -104,3 +104,31 @@ cd .. && rm -rf node_exporter-*
 cd /vagrant/Downloads/
 sudo apt-get install -y adduser libfontconfig
 sudo dpkg -i grafana_5.4.3_amd64.deb 
+
+
+#____________________________
+#                            #
+# Checking Version Installed #
+#____________________________#
+
+prometheus --version
+node_exporter --version
+grafana-server -v
+
+
+#_____________________________
+#                             #
+# node_exporter Configuration #
+#_____________________________#
+
+# Initialize node_exporter service
+sudo cp services/node_exporter.service /etc/systemd/system/
+
+# Reload Systemd to use node_exporter newly defined service
+sudo systemctl daemon-reload
+
+# Starting node_exporter service
+sudo systemctl start node_exporter
+
+# Checking node_exporter service status
+sudo systemctl status node_exporter
