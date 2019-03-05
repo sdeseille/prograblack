@@ -132,3 +132,28 @@ sudo systemctl start node_exporter
 
 # Checking node_exporter service status
 sudo systemctl status node_exporter
+
+
+#__________________________
+#                          #
+# Prometheus Configuration #
+#__________________________#
+
+# Initial YAML config file
+sudo cp configs/prometheus.yml /etc/prometheus/
+sudo chown prometheus:prometheus /etc/prometheus/prometheus.yml
+
+# Initialize prometheus service
+sudo cp services/prometheus.service /etc/systemd/system/
+
+# Reload Systemd to use prometheus newly defined service
+sudo systemctl daemon-reload
+
+# We enable the service so that it will be loaded automatically during boot:
+sudo systemctl enable prometheus
+
+# Starting prometheus service
+sudo systemctl start prometheus
+
+# Checking prometheus service status
+sudo systemctl status prometheus
