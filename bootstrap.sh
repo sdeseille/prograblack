@@ -104,7 +104,7 @@ cd .. && rm -rf node_exporter-*
 cd /vagrant/Downloads/
 sudo apt-get install -y adduser libfontconfig
 sudo dpkg -i grafana_5.4.3_amd64.deb 
-
+cd ..
 
 #____________________________
 #                            #
